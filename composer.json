@@ -1,0 +1,18 @@
+{
+    "name": "valters/printful-be",
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "phpunit/phpunit": "^11.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Valters\\PrintfulBe\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Valters Sakarnis",
+            "email": "valters.sakarnis@gmail.com"
+        }
+    ]
+}
