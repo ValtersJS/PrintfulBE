@@ -2,9 +2,9 @@
 
 namespace Printful;
 
-require 'vendor/autoload.php';
+use CacheInterface;
 
-use Printful\CacheInterface;
+require 'vendor/autoload.php';
 
 class Cache implements CacheInterface
 {
@@ -53,10 +53,7 @@ class Cache implements CacheInterface
 
     private function getCacheFilePath($key)
     {
-        // Takes ProductId and chosen size from the cache key
-        list($productId, $size) = explode('_', $key);
-
         // Makes cache filename using productId and chosen size
-        return $this->cacheDir . '/' . $productId . '_' . $size . '.json';
+        return $this->cacheDir . '/' . md5($key) . '.json';
     }
 }
