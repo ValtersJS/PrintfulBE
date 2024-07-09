@@ -1,5 +1,9 @@
 <?php
 
+namespace Printful;
+
+require 'vendor/autoload.php';
+
 interface CacheInterface
 {
     /**

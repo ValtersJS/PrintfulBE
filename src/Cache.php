@@ -2,9 +2,10 @@
 
 namespace Printful;
 
-use CacheInterface;
-
 require 'vendor/autoload.php';
+
+use Printful\CacheInterface;
+
 
 class Cache implements CacheInterface
 {
