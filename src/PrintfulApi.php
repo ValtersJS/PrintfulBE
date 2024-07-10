@@ -1,6 +1,8 @@
 <?php
 namespace Printful;
 
+require 'vendor/autoload.php';
+
 use Printful\CacheInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -22,48 +24,67 @@ class PrintfulApi
         ]);
     }
 
-    public function getCatalogProductVariants(int $productId)
+    public function getData(int $productId)
     {
-        $cacheKey = "product_{$productId}_variants";
-        $cachedData = $this->cache->get($cacheKey);
+        $cacheKey = $this->generateCacheKey($productId);
 
         // if data is aleady cached, return cache
-        if ($cachedData !== null) {
+        $cachedData = $this->cache->get($cacheKey);
+        if ($cachedData !== null)
             return $cachedData;
-        }
 
+        return $this->getCatalogProductVariants($productId, $cacheKey);
+    }
+
+    public function getCatalogProductVariants(int $productId, string $cacheKey)
+    {
         try {
             $response = $this->client->get("catalog-products/{$productId}/catalog-variants");
             $data = json_decode($response->getBody(), true);
 
-            $colors = [];
-            $sizes = [];
-
-            if (isset($data['data']) && is_array($data['data'])) {
-                foreach ($data['data'] as $variant) {
-                    if (!in_array($variant['color'], $colors)) {
-                        array_push($colors, $variant['color']);
-                    }
-                    if (!in_array($variant['size'], $sizes)) {
-                        array_push($sizes, $variant['size']);
-
-                    }
-                }
-            }
-
-            $result = [
-                'colors' => $colors,
-                'sizes' => $sizes,
-            ];
-
-            echo "Caching result...\n";
-            $this->cache->set($cacheKey, $result, 300); // Cache for 5 minutes
-
-            return $result;
         } catch (ClientException $e) {
             echo "Error: " . $e->getMessage() . "\n";
-            return ['error' => $e->getMessage()];
+            return null;
         }
+
+        $filteredData = $this->filterData($data, $cacheKey);
+        return $filteredData;
+    }
+
+    public function filterData($data, $cacheKey)
+    {
+        if ($data === null)
+            return null;
+
+        $colors = [];
+        $sizes = [];
+
+        if (isset($data['data']) && is_array($data['data'])) {
+            foreach ($data['data'] as $variant) {
+                if (!in_array($variant['color'], $colors)) {
+                    array_push($colors, $variant['color']);
+                }
+                if (!in_array($variant['size'], $sizes)) {
+                    array_push($sizes, $variant['size']);
+
+                }
+            }
+        }
+
+        $result = [
+            'colors' => $colors,
+            'sizes' => $sizes,
+        ];
+
+        echo "Caching result...\n";
+        $this->cache->set($cacheKey, $result, 300); // Cache for 5 minutes
+
+        return $result;
+    }
+
+    private function generateCacheKey(int $productId)
+    {
+        return "product_{$productId}_variants";
     }
 
 }

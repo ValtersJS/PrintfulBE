@@ -12,6 +12,6 @@ $service = new PrintfulApi($cache, $token);
 
 $productId = 12;
 
-$result = $service->getCatalogProductVariants($productId);
+$result = $service->getData($productId);
 
 print_r($result);
