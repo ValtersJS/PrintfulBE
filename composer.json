@@ -1,6 +1,10 @@
 {
   "name": "valters/printful-be",
   "description": "Printful BE test",
+  "scripts": {
+    "start": "php ./src/example.php",
+    "test": "vendor/bin/phpunit tests/PrintfulAPITest.php --testdox"
+  },
   "require": {
     "guzzlehttp/guzzle": "^7.8",
     "phpunit/phpunit": "^11.2"
