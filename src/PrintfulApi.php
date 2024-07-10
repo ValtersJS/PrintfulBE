@@ -25,7 +25,7 @@ class PrintfulApi
 
     public function getCatalogProductVariants(int $productId)
     {
-        $cacheKey = "catalog_product_{$productId}";
+        $cacheKey = "product_{$productId}_variants";
         $cachedData = $this->cache->get($cacheKey);
 
         // if data is aleady cached, return cache

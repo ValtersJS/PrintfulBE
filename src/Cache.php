@@ -15,7 +15,7 @@ class Cache implements CacheInterface
     {
         $this->cacheDir = $cacheDir;
 
-        // Makes sure cache dir exists
+        // Makes sure cache dir exists and has permissions
         if (!is_dir($this->cacheDir)) {
             mkdir($this->cacheDir, 0777, true);
         }
@@ -43,8 +43,10 @@ class Cache implements CacheInterface
         if (file_exists($cacheFile)) {
             $data = json_decode(file_get_contents($cacheFile), true);
             if ($data && $data['expiration'] > time()) {
+                echo "Cache is valid, reading from cache \n";
                 return $data['value'];
             } else {
+                echo "Cache has expired \n";
                 unlink($cacheFile);
             }
         }
@@ -54,7 +56,7 @@ class Cache implements CacheInterface
 
     private function getCacheFilePath($key)
     {
-        // Makes cache filename using productId and chosen size
-        return $this->cacheDir . '/' . md5($key) . '.json';
+        // Makes cache filename using productId
+        return $this->cacheDir . '/' . "{$key}" . '.json';
     }
 }
