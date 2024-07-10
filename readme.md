@@ -4,6 +4,13 @@
 
 ### Instruction for running the project
 
-+ "composer i" - to install dependencies
-+ "composer start" - run the program from its starting point
-+ "composer test" - execute unit tests
+**Docker setup (not required):**
+
++ ``"docker build -t printfulbe . "`` - build Docker image
++ ``"docker run -it --rm printfulbe bash"`` - start the image
+
+**Executing program:**
+
++ ``"composer i"`` - to install dependencies (Only if running without Docker!)
++ ``"composer start"`` - run the program from its starting point
++ ``"composer test"`` - execute unit tests
