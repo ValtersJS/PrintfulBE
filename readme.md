@@ -1,6 +1,6 @@
 # Printful BackEnd test task completed by Valters Sakarnis
 
-## Written using PHP 8.1, PHPUnit and guzzle
+## Written using PHP 8.2, PHPUnit and guzzle
 
 ### Instruction for running the project
 
