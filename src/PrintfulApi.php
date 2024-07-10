@@ -18,7 +18,6 @@ class PrintfulApi
             'base_uri' => 'https://api.printful.com/v2/',
             'headers' => [
                 'Authorization' => "Bearer {$this->token}",
-                'Content-Type' => 'application/json',
             ],
         ]);
     }
