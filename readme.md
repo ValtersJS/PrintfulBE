@@ -1,4 +1,4 @@
-# Printful BackEnd test task completed by Valters Sakarnis
+# Printful API and caching
 
 ## Written using PHP 8.2, PHPUnit and guzzle
 
